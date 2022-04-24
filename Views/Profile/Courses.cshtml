@@ -1,0 +1,74 @@
+﻿@model List<Course_Store.Models.Course>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Courses</title>
+</head>
+<body>
+    @if (Model == null)
+    {
+        <h3>
+            Ju nuk keni kurse
+        </h3>
+    }
+    else
+    {
+        <table class="table">
+            <tr>
+                <th>
+                   Title
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Image
+                </th>
+                <th>
+                    CourseCategory
+                </th>
+                <th>
+                    CourseTrainer
+                </th>
+                <th>
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        <img src="@Url.Content(item.Image)"
+                             @*<img src="~/CoursesPhotos/item.Image" alt="Foto" width="200px" height="200px" />*@
+                        </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CourseCategory.CategotyType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CourseTrainer.User.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Hide Course", "Hide", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+</body>
+</html>

@@ -1,0 +1,92 @@
+﻿@model Course_Store.Models.Responses.UserProfile
+
+<style>
+    a {
+        color: black;
+    }
+</style>
+<div style="height='auto';width='auto'">
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Birthday)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Birthday)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Points)
+        </dt>
+        @if (Model.Points == null)
+        {
+<dd>
+    Ju keni 0 pike
+</dd>
+ }
+else
+{
+<dd>
+    @Html.DisplayFor(model => model.Points)
+</dd>
+}
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Photo)
+        </dt>
+
+
+        @if (Model.Photo != null)
+        {
+<dd>
+    <img src="@Url.Content(Model.Photo)"
+</dd>
+ }
+else
+{
+<p>Nuk ka foto</p>
+}
+        <dt>
+            Actions
+        </dt>
+        <dd>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = Model.Id }) |
+            @Html.ActionLink("Your Courses", "Courses")
+        </dd>
+    </dl>
+</div>
+</body>
+</html>
