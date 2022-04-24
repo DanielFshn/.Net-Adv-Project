@@ -203,7 +203,7 @@ namespace Course_Store.Controllers
                 Name = applicationUser.Name,
                 Surname = applicationUser.Surname,
                 Username = applicationUser.UserName,
-                //Photo = applicationUser.Photo,
+                Photo = applicationUser.Photo,
                 
             };
             return View(user);
@@ -214,10 +214,11 @@ namespace Course_Store.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(HttpPostedFileBase Photo,UserEditRequest model)
+        public ActionResult Edit(UserEditRequest model)
         {
             if (ModelState.IsValid)
             {
+                var filename = "~/UserPhotos/";
                 var id = User.Identity.GetUserId();
                 ApplicationUser user = db.Users.FirstOrDefault(u => u.Id == id);
                 if (TempData.ContainsKey("username"))
@@ -238,11 +239,9 @@ namespace Course_Store.Controllers
                 user.Surname = model.Surname;
                 user.UpdatedById = id;
                 user.UpdatedOn = DateTime.Now;
-                if (Photo != null)
+                if(model.Photo != null)
                 {
-                    Photo.SaveAs(HttpContext.Server.MapPath("~/UserPhotos/")
-                                                          + Photo.FileName);
-                    user.Photo = Photo.FileName;
+                    user.Photo = (filename + model.Photo).Trim();
                 }
                 if (model.Birthday != null)
                 {

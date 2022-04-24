@@ -66,53 +66,54 @@ namespace Course_Store.Controllers
         }
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin
-        public ActionResult Index()
-        {
-            return View();
-        }
-        [HttpGet]
-        public ActionResult CreateTrainer(string id)
-        {
-            return View(new TrainerRegisterRequest());
-        }
-        [HttpPost]
-        public ActionResult CreateTrainer(string id, TrainerRegisterRequest model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var appuser = UserManager.Users.FirstOrDefault(e => e.Id == id);
-                    var trainerRole = db.Roles.Where(n => n.Name == "Trainer").FirstOrDefault();
-                    try
-                    {
-                        UserManager.RemoveFromRole(id, "User");
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                    UserManager.AddToRole(id, trainerRole.Name);
-                    var trainer = new Trainer()
-                    {
-                        YearOfExperience = model.YearOfExperience,
-                        Skills = model.Skills,
-                        User_Id = appuser.Id
-                    };
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
+        //[HttpGet]
+        //public ActionResult CreateTrainer(string id)
+        //{
+        //    return View(new TrainerRegisterRequest());
+        //}
+        //[HttpPost]
+        //public ActionResult CreateTrainer(string id, TrainerRegisterRequest model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            var appuser = UserManager.Users.FirstOrDefault(e => e.Id == id);
+        //            var trainerRole = db.Roles.Where(n => n.Name == "Trainer").FirstOrDefault();
+        //            try
+        //            {
+        //                UserManager.RemoveFromRole(id, "User");
+        //            }
+        //            catch (Exception)
+        //            {
+        //                throw;
+        //            }
+        //            UserManager.AddToRole(id, trainerRole.Name);
+        //            var trainer = new Trainer()
+        //            {
+        //                YearOfExperience = model.YearOfExperience,
+        //                Skills = model.Skills,
+        //                User_Id = appuser.Id
+        //            };
                    
-                    db.Trainers.Add(trainer);
-                    db.SaveChanges();
-                    return RedirectToAction("Index", "Home");
-                }
-                catch (Exception)
-                { throw; }
-            }
-            return View();
-        }
-        public ActionResult TrainerDetails(int id)
-        {
-            return View();
-        }
+        //            db.Trainers.Add(trainer);
+        //            db.SaveChanges();
+        //            return RedirectToAction("Index", "Home");
+        //        }
+        //        catch (Exception)
+        //        { throw; }
+        //    }
+        //    return View();
+        //}
+        //public ActionResult TrainerDetails(int? id)
+        //{
+
+        //    return View();
+        //}
         public ActionResult ListOfUsers()
         {
             var users = UserManager.Users.ToList();

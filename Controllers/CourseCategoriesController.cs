@@ -17,6 +17,7 @@ namespace Course_Store.Controllers
         // GET: CourseCategories
         public ActionResult Index()
         {
+            ViewBag.Categories = db.CourseCategories.ToList();
             return View(db.CourseCategories.ToList());
         }
 

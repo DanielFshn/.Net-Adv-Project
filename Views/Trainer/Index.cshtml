@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Course_Store.Models.Trainer>
+﻿@model IEnumerable<Course_Store.Models.Responses.TrainerPannel>
 
 @{
     ViewBag.Title = "Index";
@@ -12,28 +12,52 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Surname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Skills)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.YearOfExperience)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Skills)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.YearOfExperience)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TrainderId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TrainderId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TrainderId })
-        </td>
-    </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Surname)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Email)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Skills)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.YearOfExperience)
+    </td>
+    <td>
+        <img src="@Url.Content(item.Image)"
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+    </td>
+</tr>
 }
 
 </table>

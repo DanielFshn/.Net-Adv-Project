@@ -1,4 +1,4 @@
-﻿@model Course_Store.Models.Trainer
+﻿@model Course_Store.Models.Responses.TrainerPannel
 
 @{
     ViewBag.Title = "Details";
@@ -10,6 +10,28 @@
     <h4>Trainer</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Skills)
         </dt>
@@ -25,18 +47,17 @@
         <dd>
             @Html.DisplayFor(model => model.YearOfExperience)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Image)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Image)
+            <img src="@Url.Content(Model.Image)"
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.TrainderId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

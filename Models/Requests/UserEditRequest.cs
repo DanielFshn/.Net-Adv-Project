@@ -17,6 +17,6 @@ namespace Course_Store.Models.Requests
         public DateTime Birthday { get; set; }
 
         [Display(Name = "Photo")]
-        public HttpPostedFileBase UploadPhoto { get; set; }
+        public string Photo { get; set; }
     }
 }

@@ -13,6 +13,8 @@ namespace Course_Store.Models.Responses
         public string Surname { get; set; }
         public string Email { get; set; }
         public int YearOfExperience { get; set; }
+        public string Skills { get; set; }
+        public string Image { get; set; }
         public List<Course> Courses { get; set; } = new List<Course>();
     }
 }
