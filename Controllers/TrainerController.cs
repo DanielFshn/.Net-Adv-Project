@@ -14,7 +14,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace Course_Store.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Trainer")]
     public class TrainerController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -161,13 +161,13 @@ namespace Course_Store.Controllers
             }
             return View();
         }
-
+        [Authorize(Roles= "Admin,Trainer")]
         // GET: Trainers/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("~/Error/BadRequest");
             }
             Trainer trainer = db.Trainers.Find(id);
             var user = db.Users.FirstOrDefault(u => u.Id == trainer.User_Id);
@@ -175,7 +175,6 @@ namespace Course_Store.Controllers
             {
                 return View("~/Error/PageNotFound");
             }
-            TempData["username"] = user.UserName;
             var trainerEditReq = new TrainerEditRequest()
             {
                 Name = user.Name,

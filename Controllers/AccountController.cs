@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Course_Store.Models;
+using System.Collections.Generic;
+using Course_Store.Models.Responses;
 
 namespace Course_Store.Controllers
 {
@@ -69,6 +71,7 @@ namespace Course_Store.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            Session["cart"] = new List<CourseListView>();
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -176,7 +179,7 @@ namespace Course_Store.Controllers
 
                     throw;
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name, Surname = model.Surname, Birthday = model.Birthday, CreatedOn = DateTime.Now,Photo = fileName};
+                var user = new ApplicationUser { UserName = model.Username, Email = model.Email, Name = model.Name, Surname = model.Surname, Birthday = model.Birthday, CreatedOn = DateTime.Now,Photo = fileName};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

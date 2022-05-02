@@ -9,11 +9,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-@foreach (var item in Model)
-{
-    @Html.Partial("_CourseCatergories", item)
-}
-@*<table class="table">
+<table class="table">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.CategotyType)
@@ -34,4 +30,4 @@
         </tr>
     }
 
-    </table>*@
+    </table>

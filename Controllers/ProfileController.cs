@@ -19,101 +19,33 @@ namespace Course_Store.Controllers
 
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        //ky funnksioni eshte sa per ceshtje testimi qe ta populloje databazen
-        public ActionResult Populate()
-        {
-            try
-            {
-                var category = new CourseCategory()
-                {
-                    CategotyType = "programming"
-                };
-                db.CourseCategories.Add(category);
-
-                var id = User.Identity.GetUserId();
-                var user = db.Users.FirstOrDefault(u => u.Id == id);
-                var trainer = new Trainer()
-                {
-                    YearOfExperience = 10,
-                    Skills = ".Net"
-                };
-                db.Trainers.Add(trainer);
-
-                var course = new Course()
-                {
-                    Image = "DSC_4642.jpg",
-                    Points = 10,
-                    Title = "c#",
-                    Price = 100,
-                    CreatedOn = DateTime.Now,
-                    IsPublish = true,
-                    CategoryId = category.Id,
-                    TrainerId = trainer.TrainderId
-                };
-                db.Courses.Add(course);
-
-                var course1 = new Course()
-                {
-                    Image = "DSC_4642.jpg",
-                    Points = 10,
-                    Title = ".net",
-                    Price = 100,
-                    CreatedOn = DateTime.Now,
-                    IsPublish = true,
-                    CategoryId = category.Id,
-                    TrainerId = trainer.TrainderId
-                };
-                db.Courses.Add(course1);
-
-                var order = new Order()
-                {
-                    UserId = user.Id,
-                    CreatedOn = DateTime.Now,
-                    PaymentMethod = PaymentMethod.None
-                };
-                db.Orders.Add(order);
-
-                var order2 = new Order()
-                {
-                    UserId = user.Id,
-                    CreatedOn = DateTime.Now,
-                    PaymentMethod = PaymentMethod.None
-                };
-                db.Orders.Add(order2);
-                db.SaveChanges();
-                var detail = new OrderDetail()
-                {
-                    CourseId = course.Id,
-                    OrderId = order.Id,
-                    IsHidden = false,
-                    Price = 100,
-                    Order = order
-                };
-                db.OrderDetails.Add(detail);
-                var detail1 = new OrderDetail()
-                {
-                    CourseId = course1.Id,
-                    OrderId = order2.Id,
-                    IsHidden = false,
-                    Price = 100,
-                    Order = order2
-                };
-                db.OrderDetails.Add(detail1);
-                db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-
-            return RedirectToAction("Index");
-
-        }
         // GET: Profile
         public ActionResult Index()
         {
             var id = User.Identity.GetUserId();
+            var user_courses = new List<CourseAddRequest>();
+            var orders = db.Orders.Where(x => x.UserId == id).ToList();
+            foreach(var item in orders)
+            {
+                var orderDet = db.OrderDetails.Where(x => x.OrderId == item.Id).ToList();
+                foreach(var od in orderDet)
+                {
+                    var course = db.Courses.Find(od.CourseId);
+                    var category = db.CourseCategories.Find(course.CategoryId);
+                    user_courses.Add(new CourseAddRequest()
+                    {
+                        Id = course.Id,
+                        Category = category,
+                        Description = course.Description,
+                        Image = course.Image,
+                        IsPublish = course.IsPublish,
+                        Objectives = course.Objectives,
+                        Price= course.Price,
+                        Title = course.Title
+                    });
+                }
+            }
+            ViewData["userCourses"] = user_courses;
             var user = db.Users.FirstOrDefault(u => u.Id == id);
             if (user != null)
             {
@@ -137,29 +69,34 @@ namespace Course_Store.Controllers
             }
 
         }
-        public ActionResult Courses()
+        public PartialViewResult Courses()
         {
             var id = User.Identity.GetUserId();
 
             var user = db.Users.FirstOrDefault(u => u.Id == id);
-            var model = new List<Course>();
-            if (user != null)
-            {
+            var model = new List<CourseAddRequest>();
                 var orders = db.Orders.Where(o => o.UserId == id).ToList();
                 foreach (var item in orders)
                 {
                     var orderDetails = db.OrderDetails.Where(o => o.OrderId == item.Id && o.IsHidden == false).ToList();
                     foreach (var course in orderDetails)
                     {
-                        var courses = db.Courses.FirstOrDefault(c => c.Id == course.CourseId);
-                        if (!model.Contains(courses))
+                        var c = db.Courses.Find(course.CourseId);
+                        var category = db.CourseCategories.Find(c.CategoryId);
+                        model.Add(new CourseAddRequest()
                         {
-                            model.Add(courses);
-                        }
+                            Description = c.Description,
+                            Id = c.Id,
+                            Category =category,
+                            Image = c.Image,
+                            IsPublish = c.IsPublish,
+                            Objectives = c.Objectives,
+                            Price= c.Price,
+                            Title = c.Title
+                        });
                     }
                 }
-            }
-            return View(model);
+                return PartialView("_Courses", model);
         }
         public ActionResult Hide(int id)
         {

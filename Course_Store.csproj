@@ -168,15 +168,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CourseCategoriesController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\TrainerController.cs" />
+    <Compile Include="Controllers\TrainerPannelController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -212,6 +213,14 @@
     <Compile Include="Migrations\202204231851236_addUser_Id.Designer.cs">
       <DependentUpon>202204231851236_addUser_Id.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202204251130371_ch.cs" />
+    <Compile Include="Migrations\202204251130371_ch.Designer.cs">
+      <DependentUpon>202204251130371_ch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202204252206537_addedOrderRelationship.cs" />
+    <Compile Include="Migrations\202204252206537_addedOrderRelationship.Designer.cs">
+      <DependentUpon>202204252206537_addedOrderRelationship.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Course.cs" />
@@ -228,6 +237,7 @@
     <Compile Include="Models\Requests\TrainerEditRequest.cs" />
     <Compile Include="Models\Requests\TrainerRegisterRequest.cs" />
     <Compile Include="Models\Requests\UserEditRequest.cs" />
+    <Compile Include="Models\Responses\CourseListView.cs" />
     <Compile Include="Models\Responses\RoleViewModel.cs" />
     <Compile Include="Models\Responses\TrainerPannel.cs" />
     <Compile Include="Models\Responses\UserListView.cs" />
@@ -512,12 +522,9 @@
     <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Views\Error\PreconditionFailed.cshtml" />
     <Content Include="Views\Error\Unauthorized.cshtml" />
-    <Content Include="Views\Profile\Courses.cshtml" />
     <Content Include="Views\Profile\Delete.cshtml" />
     <Content Include="Views\Profile\Edit.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
-    <Content Include="Views\Admin\CreateTrainer.cshtml" />
-    <Content Include="Views\Admin\ListOfUsers.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Role\Edit.cshtml" />
     <Content Include="Views\Role\Create.cshtml" />
@@ -538,7 +545,20 @@
     <Content Include="Views\Trainer\Edit.cshtml" />
     <Content Include="Views\Trainer\Index.cshtml" />
     <Content Include="Views\Course\Create.cshtml" />
-    <Content Include="Views\Shared\_CourseCatergories.cshtml" />
+    <Content Include="Views\Shared\_CourseCart.cshtml" />
+    <Content Include="Views\TrainerPannel\Create.cshtml" />
+    <Content Include="Views\TrainerPannel\Delete.cshtml" />
+    <Content Include="Views\TrainerPannel\Details.cshtml" />
+    <Content Include="Views\TrainerPannel\Edit.cshtml" />
+    <Content Include="Views\TrainerPannel\Index.cshtml" />
+    <Content Include="Views\Shared\_TrainerPannel.cshtml" />
+    <Content Include="Views\Order\Create.cshtml" />
+    <Content Include="Views\Order\Delete.cshtml" />
+    <Content Include="Views\Order\Details.cshtml" />
+    <Content Include="Views\Order\Edit.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Order\Cart.cshtml" />
+    <Content Include="Views\Shared\_Courses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -561,27 +581,42 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202204181551028_initialSetup.resx">
       <DependentUpon>202204181551028_initialSetup.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204181637455_1.resx">
       <DependentUpon>202204181637455_1.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204191724198_prove.resx">
       <DependentUpon>202204191724198_prove.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204211529382_role.resx">
       <DependentUpon>202204211529382_role.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204211535249_dropRole.resx">
       <DependentUpon>202204211535249_dropRole.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204212325591_dropTrainerBirthday.resx">
       <DependentUpon>202204212325591_dropTrainerBirthday.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204231850205_updateTrainer.resx">
       <DependentUpon>202204231850205_updateTrainer.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204231851236_addUser_Id.resx">
       <DependentUpon>202204231851236_addUser_Id.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204251130371_ch.resx">
+      <DependentUpon>202204251130371_ch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204252206537_addedOrderRelationship.resx">
+      <DependentUpon>202204252206537_addedOrderRelationship.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

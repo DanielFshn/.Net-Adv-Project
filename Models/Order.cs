@@ -22,11 +22,13 @@ namespace Course_Store.Models
     {
         public int Id { get; set; }
         public string UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser User { get; set; }
         public string AdminId { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
         public DateTime? DeletedOn { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
-        List<OrderDetail> Details { get; set; }
+        public List<OrderDetail> Details { get; set; } = new List<OrderDetail>();
     }
 }

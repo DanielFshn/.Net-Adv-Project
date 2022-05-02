@@ -1,0 +1,100 @@
+﻿@model Course_Store.Models.Responses.TrainerPannel
+
+
+
+<div class="properties properties2 mb-30">
+    <div class="properties__card">
+        <div class="properties__img overlay1">
+            @if (!string.IsNullOrEmpty(Model.Image))
+            {
+                <img src="@Url.Content(Model.Image) " />
+            }
+        </div>
+        <div class="properties__caption">
+            <h3>@Html.DisplayNameFor(m => m.Name): @Html.DisplayFor(modelItem => Model.Name)</h3>
+            <h3>@Html.DisplayNameFor(m => m.Surname): @Html.DisplayFor(modelItem => Model.Surname)</h3>
+            <h3>@Html.DisplayNameFor(m => m.Email): @Html.DisplayFor(modelItem => Model.Email)</h3>
+            <h3>@Html.DisplayNameFor(m => m.Birthday): @Html.DisplayFor(modelItem => Model.Birthday)</h3>
+            <h3>@Html.DisplayNameFor(m => m.Skills): @Html.DisplayFor(modelItem => Model.Skills)</h3>
+            <h3>@Html.DisplayNameFor(m => m.YearOfExperience): @Html.DisplayFor(modelItem => Model.YearOfExperience)</h3>
+        </div>
+        <div class="text-center font-weight-bold">
+            @Html.ActionLink("Edit", "Edit", "Trainer", new { id = Model.Id}, new { @class = "text-dark" })
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+@*<div>
+        <h4>TrainerPannel</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Surname)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Surname)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Birthday)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Birthday)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.YearOfExperience)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.YearOfExperience)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Skills)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Skills)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Image)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Image)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@

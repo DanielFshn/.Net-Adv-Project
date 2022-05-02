@@ -12,6 +12,8 @@ namespace Course_Store.Models
         [Key]
         public int Id { get; set; }
         public int CourseId { get; set; }
+        [ForeignKey("CourseId")]
+        public Course Course { get; set; }
         public decimal Price { get; set; }
         public bool IsHidden { get; set; }
         public int OrderId { get; set; }
