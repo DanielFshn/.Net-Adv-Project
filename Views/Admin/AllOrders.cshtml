@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Course_Store.Models.Order>
+
+@{
+    ViewBag.Title = "AllOrders";
+}
+
+<h2>AllOrders</h2>
+
+<br />
+<br />
+<br />
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedOn)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedOn)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit","Admin", new { id=item.Id },new { @class="text-dark"}) |
+            @Html.ActionLink("Details", "Details", "Admin", new { id=item.Id },new { @class = "text-dark" }) |
+            @Html.ActionLink("Delete", "Delete", "Admin", new { id=item.Id }, new { @class = "text-dark" })
+        </td>
+    </tr>
+}
+
+</table>

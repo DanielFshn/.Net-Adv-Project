@@ -57,18 +57,37 @@
                                         <nav>
                                             <ul id="navigation">
                                                 <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
-                                                <li class="active">@Html.ActionLink("All Courses", "Index", "Course")</li>
+                                                @if (!User.IsInRole("Trainer") && !User.IsInRole("Admin"))
+                                                {
+                                                    <li class="active">@Html.ActionLink("All Courses", "Index", "Course")</li>
+                                                }
+                                                @if (User.IsInRole("Admin"))
+                                                {
+                                                    <li class="active">@Html.ActionLink("Roles", "Index", "Role")</li>
+                                                    <li class="active">@Html.ActionLink("Manage Users", "UsersList", "Admin")</li>
+                                                    <li class="active">@Html.ActionLink("Trainers", "TrainersList", "Admin")</li>
+                                                    <li class="active">@Html.ActionLink("Course Categories", "Index", "CourseCategories")</li>
+                                                    <li class="active">@Html.ActionLink("Published Courses", "PublishedCourses", "Course")</li>
+                                                    <li class="active">@Html.ActionLink("Unpublished Courses", "UnpublishedCourses", "Course")</li>
+                                                    <li class="active">@Html.ActionLink("All Orders", "AllOrders", "Admin")</li>
+                                                }
                                                 @if (User.IsInRole("User"))
                                                 {
                                                     <li class="active">@Html.ActionLink("My Orders", "Index", "Order")</li>
                                                     <li class="active">@Html.ActionLink("Cart", "Cart", "Order")</li>
+                                                    <li class="active">@Html.ActionLink("My Profile", "Index", "Profile")</li>
+                                                    <li class="active">@Html.ActionLink("Contact", "Contact", "Home")</li>
                                                 }
-                                                <li>
-                                                    <a href="/Course/Index">Categories</a>
-                                                    <ul class="submenu">
-                                                        <li>@Html.ActionLink("Markteting", "Marketing", "Category")</li>
-                                                    </ul>
-                                                </li>
+                                                @if (User.IsInRole("Trainer"))
+                                                {
+                                                    <li class="active">@Html.ActionLink("Profile", "Index", "TrainerPannel")</li>
+                                                    <li class="active">@Html.ActionLink("Create New Course", "Create", "Course")</li>
+                                                }
+                                                @if (!User.IsInRole("Admin"))
+                                                {
+                                                    <li class="active">@Html.ActionLink("About", "About", "Home")</li>
+                                                }
+
                                                 <!-- Button -->
                                             </ul>
                                         </nav>

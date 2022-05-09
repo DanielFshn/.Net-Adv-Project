@@ -23,7 +23,7 @@ namespace Course_Store.Models
         public bool IsPublish { get; set; }
         public int? Points { get; set; }
         public string Objectives { get; set; }
-        public List<CourseDetail> Details { get; set; }
+        public List<CourseDetail> Details { get; set; } = new List<CourseDetail>();
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public CourseCategory CourseCategory { get; set; }

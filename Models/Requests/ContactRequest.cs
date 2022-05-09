@@ -12,9 +12,8 @@ namespace Course_Store.Models.Requests
         [Required(ErrorMessage = "Please enter your email")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Please enter your phone number")]
-        [DataType(DataType.PhoneNumber)]
-        public string PhoneNumber { get; set; }
+        [Required(ErrorMessage = "Please enter your Name")]
+        public string Name { get; set; }
         [Required(ErrorMessage = "Please enter your message")]
         public string Message { get; set; }
     }

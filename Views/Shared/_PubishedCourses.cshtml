@@ -1,0 +1,70 @@
+﻿
+@model IEnumerable<Course_Store.Models.Requests.CourseAddRequest>
+
+<h2>
+    My Courses
+</h2>
+
+<style>
+    #img-1 {
+        border-radius: 50%;
+    }
+</style>
+<table class="table table-success">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Objectives)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Objectives)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <img id="img-1" width="100px" height="100px" src="@Url.Content(item.Image)"
+            </td>
+            @if (User.IsInRole("User"))
+            {
+                <td class="text-dark">
+                    @Html.ActionLink("SeeContent", "SeeContent", "CourseDetails", new { id = item.Id }, new { @class = "text-dark" })
+
+                </td>
+            }
+            @if (User.IsInRole("Trainer"))
+            {
+        <td class="text-dark">
+            @Html.ActionLink("Edit", "Edit", "Course", new { id = item.Id }, new { @class = "text-dark" }) |
+            @Html.ActionLink("Details", "Details", "Course", new { id = item.Id }, new { @class = "text-dark" }) |
+            @Html.ActionLink("Delete", "Delete", "Course", new { id = item.Id }, new { @class = "text-dark" })
+
+        </td>
+            }
+        </tr>
+    }
+
+</table>

@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace Course_Store.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class RoleController : Controller
     {
         private ApplicationRoleManager _roleManager;

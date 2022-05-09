@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Course_Store.Models;
 using Course_Store.Models.Requests;
 using Microsoft.AspNet.Identity;
@@ -16,46 +17,24 @@ namespace Course_Store.Controllers
     public class CourseController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: Course
+        [HttpGet]
         public ActionResult Index()
         {
+            ViewBag.Id = new SelectList(db.CourseCategories, "Id", "CategotyType");
+
+
             var userId = User.Identity.GetUserId();
-            if (userId == null)
+            if (userId != null && User.IsInRole("Admin"))
             {
-                var courseView = new List<CourseAddRequest>();
-                var courses = db.Courses.Include(c => c.CourseCategory).Include(c => c.CourseTrainer).ToList();
-                foreach (var item in courses.ToList())
+                var user = db.Users.Find(userId);
+                var role = db.Roles.FirstOrDefault(x => x.Name == "Admin");
+                if (user.Roles.Any(x => x.RoleId == role.Id))
                 {
-                    var trainer = db.Trainers.FirstOrDefault(c => c.TrainderId == item.TrainerId);
-                    var publisherName = db.Users.FirstOrDefault(u => u.Id == trainer.User_Id);
-                    courseView.Add(new CourseAddRequest()
+                    var courseView = new List<CourseAddRequest>();
+                    var courses = db.Courses.Include(c => c.CourseCategory).Include(c => c.CourseTrainer).ToList();
+                    foreach (var item in courses.ToList())
                     {
-                        Id = item.Id,
-                        Title = item.Title,
-                        Category = item.CourseCategory,
-                        Description = item.Description,
-                        Objectives = item.Objectives,
-                        Price = item.Price,
-                        Image = item.Image,
-                        IsPublish = item.IsPublish,
-                        TrainerName = publisherName.Name
-                    });
-                }
-                return View(courseView);
-            }
-            else
-            {
-                var order = db.Orders.FirstOrDefault(x => x.UserId == userId);
-                var orderDetails = db.OrderDetails.Where(x => x.OrderId == order.Id).ToList();
-                var courseView = new List<CourseAddRequest>();
-                var courses = db.Courses.Include(c => c.CourseCategory).Include(c => c.CourseTrainer).ToList();
-                foreach (var item in courses.ToList())
-                {
-                    foreach (var od in orderDetails)
-                    {
-                        if(od.CourseId != item.Id)
-                        { 
                         var trainer = db.Trainers.FirstOrDefault(c => c.TrainderId == item.TrainerId);
                         var publisherName = db.Users.FirstOrDefault(u => u.Id == trainer.User_Id);
                         courseView.Add(new CourseAddRequest()
@@ -70,7 +49,180 @@ namespace Course_Store.Controllers
                             IsPublish = item.IsPublish,
                             TrainerName = publisherName.Name
                         });
+                    }
+                    return View(courseView);
+                }
+            }
+            if (userId == null)
+            {
+                var courseView = new List<CourseAddRequest>();
+                var courses = db.Courses.Include(c => c.CourseCategory).Include(c => c.CourseTrainer).ToList();
+                foreach (var item in courses.ToList())
+                {
+                    if (item.IsPublish)
+                    {
+                        var trainer = db.Trainers.FirstOrDefault(c => c.TrainderId == item.TrainerId);
+                        var publisherName = db.Users.FirstOrDefault(u => u.Id == trainer.User_Id);
+                        courseView.Add(new CourseAddRequest()
+                        {
+                            Id = item.Id,
+                            Title = item.Title,
+                            Category = item.CourseCategory,
+                            Description = item.Description,
+                            Objectives = item.Objectives,
+                            Price = item.Price,
+                            Image = item.Image,
+                            IsPublish = item.IsPublish,
+                            TrainerName = publisherName.Name
+                        });
+                    }
+                }
+                return View(courseView);
+            }
+            else
+            {
+                var courseView = new List<CourseAddRequest>();
+                var orders = db.Orders.Where(o => o.UserId == userId).ToList();
+                if (orders.Count() == 0)
+                {
+                    var courses = db.Courses.Where(x => x.IsPublish == true).ToList();
+                    foreach (var c in courses)
+                    {
+                        courseView.Add(new CourseAddRequest()
+                        {
+                            Id = c.Id,
+                            Title = c.Title,
+                            Category = c.CourseCategory,
+                            Description = c.Description,
+                            Objectives = c.Objectives,
+                            Price = c.Price,
+                            Image = c.Image,
+                            IsPublish = c.IsPublish
+                        });
+                    }
+                    return View(courseView);
+                }
+                else
+                {
+                    var courses = db.Courses.Where(p => p.IsPublish == true).ToList();
+                    //var courseView = new List<CourseAddRequest>();
+                    foreach (var item in courses)
+                    {
+                        try
+                        {
+                            var orderDet = db.OrderDetails.FirstOrDefault(x => x.CourseId == item.Id);
+                            if (orderDet == null)
+                            {
+                                courseView.Add(new CourseAddRequest()
+                                {
+                                    Id = item.Id,
+                                    Title = item.Title,
+                                    Category = item.CourseCategory,
+                                    Description = item.Description,
+                                    Objectives = item.Objectives,
+                                    Price = item.Price,
+                                    Image = item.Image,
+                                    IsPublish = item.IsPublish
+                                });
+                            }
                         }
+                        catch (Exception)
+                        {
+
+                            throw;
+                        }
+                    }
+                    return View(courseView);
+                }
+            }
+        }
+        [HttpPost]
+        public ActionResult Index(int Id)
+        {
+            ViewBag.Id = new SelectList(db.CourseCategories, "Id", "CategotyType");
+            var userId = User.Identity.GetUserId();
+            if (userId != null && User.IsInRole("Admin"))
+            {
+                var user = db.Users.Find(userId);
+                var role = db.Roles.FirstOrDefault(x => x.Name == "Admin");
+                if (user.Roles.Any(x => x.RoleId == role.Id))
+                {
+                    var courseView = new List<CourseAddRequest>();
+                    var courses = db.Courses.Where(x => x.CategoryId == Id).ToList();
+                    foreach (var item in courses.ToList())
+                    {
+                        var trainer = db.Trainers.FirstOrDefault(c => c.TrainderId == item.TrainerId);
+                        var publisherName = db.Users.FirstOrDefault(u => u.Id == trainer.User_Id);
+                        courseView.Add(new CourseAddRequest()
+                        {
+                            Id = item.Id,
+                            Title = item.Title,
+                            Category = item.CourseCategory,
+                            Description = item.Description,
+                            Objectives = item.Objectives,
+                            Price = item.Price,
+                            Image = item.Image,
+                            IsPublish = item.IsPublish,
+                            TrainerName = publisherName.Name
+                        });
+                    }
+                    return View(courseView);
+                }
+            }
+            if (userId == null)
+            {
+                var courseView = new List<CourseAddRequest>();
+                var courses = db.Courses.Where(x => x.CategoryId == Id).ToList();
+                foreach (var item in courses.ToList())
+                {
+                    if (item.IsPublish)
+                    {
+                        var trainer = db.Trainers.FirstOrDefault(c => c.TrainderId == item.TrainerId);
+                        var publisherName = db.Users.FirstOrDefault(u => u.Id == trainer.User_Id);
+                        courseView.Add(new CourseAddRequest()
+                        {
+                            Id = item.Id,
+                            Title = item.Title,
+                            Category = item.CourseCategory,
+                            Description = item.Description,
+                            Objectives = item.Objectives,
+                            Price = item.Price,
+                            Image = item.Image,
+                            IsPublish = item.IsPublish,
+                            TrainerName = publisherName.Name
+                        });
+                    }
+                }
+                return View(courseView);
+            }
+            else
+            {
+                var courses = db.Courses.Where(x => x.CategoryId == Id).Where(p => p.IsPublish == true).ToList();
+                var courseView = new List<CourseAddRequest>();
+                foreach (var item in courses)
+                {
+                    try
+                    {
+                        var orderDet = db.OrderDetails.FirstOrDefault(x => x.CourseId == item.Id);
+                        if (orderDet == null)
+                        {
+                            courseView.Add(new CourseAddRequest()
+                            {
+                                Id = item.Id,
+                                Title = item.Title,
+                                Category = item.CourseCategory,
+                                Description = item.Description,
+                                Objectives = item.Objectives,
+                                Price = item.Price,
+                                Image = item.Image,
+                                IsPublish = item.IsPublish
+                            });
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
                     }
                 }
                 return View(courseView);
@@ -81,7 +233,7 @@ namespace Course_Store.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("~/Error/BadRequest");
             }
             //Course course = db.Courses.Find(id);
             var course = db.Courses.FirstOrDefault(c => c.Id == id);
@@ -99,11 +251,11 @@ namespace Course_Store.Controllers
             };
             if (course == null)
             {
-                return HttpNotFound();
+                return View("~/Error/PageNotFound");
             }
             return View(courseView);
         }
-
+        [Authorize(Roles = "Trainer")]
         // GET: Course/Create
         public ActionResult Create()
         {
@@ -111,9 +263,10 @@ namespace Course_Store.Controllers
             var categories = db.CourseCategories.ToList();
             foreach (var cat in categories)
             {
-                list.Add(new SelectListItem() { Value = cat.CategotyType, Text = cat.CategotyType });
+                list.Add(new SelectListItem() { Value = cat.Id.ToString(), Text = cat.CategotyType });
             }
             ViewBag.Category = list;
+            //ViewBag.Category = new SelectList(db.CourseCategories, "Id", "CategotyType");
             //ViewBag.Category = new SelectList(db.CourseCategories, "Id", "CategotyType");
             //ViewBag.TrainerId = new SelectList(db.Trainers, "TrainderId", "TrainderId");
             return View();
@@ -126,7 +279,7 @@ namespace Course_Store.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CourseAddRequest model)
         {
-            var fileName = "/CoursePhotos/" + Guid.NewGuid() + "_" + model.UploadImage.FileName;
+            var fileName = "~/Content/img/logo/" + Guid.NewGuid() + "_" + model.UploadImage.FileName;
             var id = User.Identity.GetUserId();
             var trainerId = db.Trainers.FirstOrDefault(x => x.User_Id == id);
             var category = db.CourseCategories.FirstOrDefault(c => c.Id == model.Category.Id);
@@ -140,9 +293,8 @@ namespace Course_Store.Controllers
                     Price = model.Price,
                     Objectives = model.Objectives,
                     IsPublish = model.IsPublish,
-                    CourseCategory = category,
                     CreatedOn = DateTime.Now,
-                    CategoryId = model.Category.Id,
+                    CategoryId = category.Id,
                     TrainerId = trainerId.TrainderId
                 };
                 try
@@ -150,6 +302,7 @@ namespace Course_Store.Controllers
                     model.UploadImage.SaveAs(Server.MapPath(fileName));
                 }
                 catch (Exception) { throw; }
+                ViewBag.Category = new SelectList(db.CourseCategories, "Id", "CategoryType", category.Id);
                 db.Courses.Add(course);
                 db.SaveChanges();
                 //ViewBag.CategoryId = new SelectList(db.CourseCategories, "Id", "CategotyType", course.CategoryId);
@@ -231,7 +384,6 @@ namespace Course_Store.Controllers
             //ViewBag.TrainerId = new SelectList(db.Trainers, "TrainderId", "Skills", course.TrainerId);
             return View(model);
         }
-
         // GET: Course/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -273,6 +425,48 @@ namespace Course_Store.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        [Authorize(Roles="Admin")]
+        public ActionResult PublishedCourses()
+        {
+            var courses = db.Courses.Where(x => x.IsPublish == true).ToList();
+            var courseView = new List<CourseAddRequest>();
+            foreach (var item in courses)
+            {
+                courseView.Add(new CourseAddRequest()
+                {
+                    Id = item.Id,
+                    Title = item.Title,
+                    Category = item.CourseCategory,
+                    Description = item.Description,
+                    Objectives = item.Objectives,
+                    Price = item.Price,
+                    Image = item.Image,
+                    IsPublish = item.IsPublish,
+                });
+            }
+            return View(courseView);
+        }
+        [Authorize(Roles = "Admin")]
+        public ActionResult UnpublishedCourses()
+        {
+            var courses = db.Courses.Where(x => x.IsPublish == false).ToList();
+            var courseView = new List<CourseAddRequest>();
+            foreach (var item in courses)
+            {
+                courseView.Add(new CourseAddRequest()
+                {
+                    Id = item.Id,
+                    Title = item.Title,
+                    Category = item.CourseCategory,
+                    Description = item.Description,
+                    Objectives = item.Objectives,
+                    Price = item.Price,
+                    Image = item.Image,
+                    IsPublish = item.IsPublish,
+                });
+            }
+            return View(courseView);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -281,5 +475,6 @@ namespace Course_Store.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }

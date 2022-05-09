@@ -136,22 +136,19 @@ namespace Course_Store.Controllers
                 {
                     var appuser = UserManager.Users.FirstOrDefault(e => e.Id == id);
                     var trainerRole = db.Roles.Where(n => n.Name == "Trainer").FirstOrDefault();
-                    try
+                    if (UserManager.IsInRole(appuser.Id, "User"))
                     {
                         UserManager.RemoveFromRole(id, "User");
+                        UserManager.AddToRole(id, trainerRole.Name);
                     }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                    UserManager.AddToRole(id, trainerRole.Name);
+                    else
+                        UserManager.AddToRole(id, trainerRole.Name);
                     var trainer = new Trainer()
                     {
                         YearOfExperience = model.YearOfExperience,
                         Skills = model.Skills,
                         User_Id = appuser.Id
                     };
-
                     db.Trainers.Add(trainer);
                     db.SaveChanges();
                     return RedirectToAction("Index", "Home");
@@ -161,7 +158,6 @@ namespace Course_Store.Controllers
             }
             return View();
         }
-        [Authorize(Roles= "Admin,Trainer")]
         // GET: Trainers/Edit/5
         public ActionResult Edit(int? id)
         {

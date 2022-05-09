@@ -168,66 +168,22 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="single-topic text-center mb-30">
-                        <div class="topic-img">
-                            <img src="~/Content/img/gallery/topic1.png" alt="">
-                            <div class="topic-content-box">
-                                <div class="topic-content">
-                                    <h3><a href="/Category/Index">Programming</a></h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="single-topic text-center mb-30">
-                        <div class="topic-img">
-                            <img src="~/Content/img/gallery/topic2.png" alt="">
-                            <div class="topic-content-box">
-                                <div class="topic-content">
-                                    <h3><a href="/Category/Design">Design</a></h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="single-topic text-center mb-30">
-                        <div class="topic-img">
-                            <img src="~/Content/img/gallery/topic3.png" alt="">
-                            <div class="topic-content-box">
-                                <div class="topic-content">
-                                    <h3><a href="/Category/Bussiness">Bussiness</a></h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="single-topic text-center mb-30">
-                        <div class="topic-img">
-                            <img src="~/Content/img/gallery/topic5.png" alt="">
-                            <div class="topic-content-box">
-                                <div class="topic-content">
-                                    <h3><a href="/Category/OfficeProductivity">Office Productivity</a></h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @foreach(var item in ViewBag.Categories as List<Course_Store.Models.CourseCategory>)
+                {
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="single-topic text-center mb-30">
                         <div class="topic-img">
                             <img src="~/Content/img/gallery/topic6.png" alt="">
                             <div class="topic-content-box">
                                 <div class="topic-content">
-                                    <h3><a href="/Category/Marketing">Marketing</a></h3>
+                                    <h3>@Ajax.ActionLink(item.CategotyType, "Index", "Course", new { Id = item.Id }, new AjaxOptions() { HttpMethod = "POST" })</h3>
+                                    @*<h3>@Html.ActionLink(item.CategotyType,"Index","Course",new { Id = item.Id},new { @class="text-dark"})</h3>*@
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> 
+                }
             </div>
         </div>
         <br /><br />

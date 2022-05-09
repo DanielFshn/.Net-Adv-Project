@@ -458,7 +458,15 @@
                                                 <a @Html.ActionLink("Edit Profile", "Edit", "Trainer", new { id = Model.Id }, new { @class = "text-white" })</a>
                                             </div>
                                             <div class=" align-center">
-                                                @Ajax.ActionLink("Courses", "Courses", new AjaxOptions()
+                                                @Ajax.ActionLink("Unpublished Courses", "Courses", new AjaxOptions()
+                                                {
+                                                HttpMethod = "GET",
+                                                UpdateTargetId = "courseDiv",
+                                                InsertionMode = InsertionMode.Replace
+                                               })
+                                            </div>
+                                            <div class=" align-center">
+                                                @Ajax.ActionLink("Published Courses", "PubishedCourses", new AjaxOptions()
                                                 {
                                                 HttpMethod = "GET",
                                                 UpdateTargetId = "courseDiv",

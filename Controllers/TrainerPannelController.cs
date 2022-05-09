@@ -41,20 +41,49 @@ namespace Course_Store.Controllers
             var coursesView = new List<CourseAddRequest>();
             foreach (var item in courses)
             {
-                var category = db.CourseCategories.Find(item.CategoryId);
-                coursesView.Add(new CourseAddRequest()
+                if (!item.IsPublish)
                 {
-                    Category = category,
-                    Description = item.Description,
-                    Id = item.Id,
-                    Image = item.Image,
-                    IsPublish = item.IsPublish,
-                    Objectives = item.Objectives,
-                    Price = item.Price,
-                    Title = item.Title,
-                });
+                    var category = db.CourseCategories.Find(item.CategoryId);
+                    coursesView.Add(new CourseAddRequest()
+                    {
+                        Category = category,
+                        Description = item.Description,
+                        Id = item.Id,
+                        Image = item.Image,
+                        IsPublish = item.IsPublish,
+                        Objectives = item.Objectives,
+                        Price = item.Price,
+                        Title = item.Title,
+                    });
+                }
             }
-            return PartialView("_Courses",coursesView);
+            return PartialView("_Courses", coursesView);
+        }
+        public PartialViewResult PubishedCourses()
+        {
+            var id = User.Identity.GetUserId();
+            var trainer = db.Trainers.FirstOrDefault(x => x.User_Id == id);
+            var courses = db.Courses.Where(x => x.TrainerId == trainer.TrainderId).ToList();
+            var coursesView = new List<CourseAddRequest>();
+            foreach (var item in courses)
+            {
+                if (item.IsPublish)
+                {
+                    var category = db.CourseCategories.Find(item.CategoryId);
+                    coursesView.Add(new CourseAddRequest()
+                    {
+                        Category = category,
+                        Description = item.Description,
+                        Id = item.Id,
+                        Image = item.Image,
+                        IsPublish = item.IsPublish,
+                        Objectives = item.Objectives,
+                        Price = item.Price,
+                        Title = item.Title,
+                    });
+                }
+            }
+            return PartialView("_PubishedCourses", coursesView);
         }
     }
 }

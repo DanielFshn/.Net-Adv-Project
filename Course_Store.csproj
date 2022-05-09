@@ -168,13 +168,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CourseCategoriesController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
+    <Compile Include="Controllers\CourseDetailsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\ProgressController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\TrainerController.cs" />
     <Compile Include="Controllers\TrainerPannelController.cs" />
@@ -221,8 +224,21 @@
     <Compile Include="Migrations\202204252206537_addedOrderRelationship.Designer.cs">
       <DependentUpon>202204252206537_addedOrderRelationship.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205052035222_updateProgress.cs" />
+    <Compile Include="Migrations\202205052035222_updateProgress.Designer.cs">
+      <DependentUpon>202205052035222_updateProgress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202205052036496_Progress.cs" />
+    <Compile Include="Migrations\202205052036496_Progress.Designer.cs">
+      <DependentUpon>202205052036496_Progress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202205090952279_updateProgress1.cs" />
+    <Compile Include="Migrations\202205090952279_updateProgress1.Designer.cs">
+      <DependentUpon>202205090952279_updateProgress1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\CourseCategory.cs" />
     <Compile Include="Models\CourseDetail.cs" />
@@ -239,6 +255,7 @@
     <Compile Include="Models\Requests\UserEditRequest.cs" />
     <Compile Include="Models\Responses\CourseListView.cs" />
     <Compile Include="Models\Responses\RoleViewModel.cs" />
+    <Compile Include="Models\Responses\TrainerListView.cs" />
     <Compile Include="Models\Responses\TrainerPannel.cs" />
     <Compile Include="Models\Responses\UserListView.cs" />
     <Compile Include="Models\Responses\UserOrdersListView.cs" />
@@ -361,6 +378,15 @@
     <Content Include="Content\img\icon\right-icon.svg" />
     <Content Include="Content\img\login-bg.mp4" />
     <Content Include="Content\img\login.jpg" />
+    <Content Include="Content\img\logo\13a7334d-4154-4597-a907-e8278660d601_photoshop.jpg" />
+    <Content Include="Content\img\logo\2a103c63-f91a-4ed9-8b1d-20c76b62057d_10-analytics-tool-blog-for-better-career-880x618.png" />
+    <Content Include="Content\img\logo\2bdf61ec-d35a-43dc-9205-0ee7eedc545d_more-courses-business-courses.jpg" />
+    <Content Include="Content\img\logo\31e65c0e-4758-410c-866d-4beda9111561_angular-pwa-course.png" />
+    <Content Include="Content\img\logo\3cfe8b02-1b11-4ae3-8002-d32d1da333d5_08-drawing.jpg" />
+    <Content Include="Content\img\logo\6a476fe6-8af0-4d40-b8de-7dcfb49bc202_python.jpg" />
+    <Content Include="Content\img\logo\6f6469c0-c1e3-4137-bd01-03b74c9b15b5_react.jfif" />
+    <Content Include="Content\img\logo\7a5c6106-e243-41d8-bc4e-6b04643802d0_word_press.jpg" />
+    <Content Include="Content\img\logo\7c135429-94d7-429e-b19e-d2a57b99811a_d9x6ibatjqgzibmxd29j.jfif" />
     <Content Include="Content\img\logo\loder.png" />
     <Content Include="Content\img\logo\loder.svg" />
     <Content Include="Content\img\logo\logo.png" />
@@ -559,11 +585,27 @@
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Order\Cart.cshtml" />
     <Content Include="Views\Shared\_Courses.cshtml" />
+    <Content Include="Views\Admin\UsersList.cshtml" />
+    <Content Include="Views\CourseDetails\Create.cshtml" />
+    <Content Include="Views\CourseDetails\Delete.cshtml" />
+    <Content Include="Views\CourseDetails\Details.cshtml" />
+    <Content Include="Views\CourseDetails\Edit.cshtml" />
+    <Content Include="Views\CourseDetails\Index.cshtml" />
+    <Content Include="Views\CourseDetails\SeeContent.cshtml" />
+    <Content Include="Views\Shared\_AddPoints.cshtml" />
+    <Content Include="Views\Shared\_UpdateProgress.cshtml" />
+    <Content Include="Views\Shared\_PubishedCourses.cshtml" />
+    <Content Include="Views\Admin\TrainersList.cshtml" />
+    <Content Include="Views\Shared\_AdminCoursesCart.cshtml" />
+    <Content Include="Views\Course\PublishedCourses.cshtml" />
+    <Content Include="Views\Course\UnpublishedCourses.cshtml" />
+    <Content Include="Views\Admin\AllOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="CoursePhotos\" />
     <Folder Include="TrainerPhotos\" />
+    <Folder Include="Views\Profress\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -617,6 +659,15 @@
     <EmbeddedResource Include="Migrations\202204252206537_addedOrderRelationship.resx">
       <DependentUpon>202204252206537_addedOrderRelationship.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205052035222_updateProgress.resx">
+      <DependentUpon>202205052035222_updateProgress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205052036496_Progress.resx">
+      <DependentUpon>202205052036496_Progress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205090952279_updateProgress1.resx">
+      <DependentUpon>202205090952279_updateProgress1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

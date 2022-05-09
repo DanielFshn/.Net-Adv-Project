@@ -26,12 +26,12 @@ namespace Course_Store.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("~/Error/BadRequest");
             }
             CourseCategory courseCategory = db.CourseCategories.Find(id);
             if (courseCategory == null)
             {
-                return HttpNotFound();
+                return View("~/Error/PageNotFound");
             }
             return View(courseCategory);
         }
@@ -64,12 +64,12 @@ namespace Course_Store.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("~/Error/BadRequest");
             }
             CourseCategory courseCategory = db.CourseCategories.Find(id);
             if (courseCategory == null)
             {
-                return HttpNotFound();
+                return View("~/Error/PageNotFound");
             }
             return View(courseCategory);
         }

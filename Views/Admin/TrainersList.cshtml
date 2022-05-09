@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Course_Store.Models.Responses.TrainerListView>
+
+@{
+    ViewBag.Title = "TrainersList";
+}
+
+<h2>TrainersList</h2>
+<br />
+<br />
+<br />
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Surname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Skills)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.YearsOfExperience)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Surname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Skills)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.YearsOfExperience)
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete","Admin", new { id=item.Id },new { @class="text-dark"})
+        </td>
+    </tr>
+}
+
+</table>
+<br />
+<br />
+<br />

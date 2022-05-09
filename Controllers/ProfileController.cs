@@ -13,7 +13,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Course_Store.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="User")]
     public class ProfileController : Controller
     {
 
@@ -22,13 +22,14 @@ namespace Course_Store.Controllers
         // GET: Profile
         public ActionResult Index()
         {
+            int sumOfPoints = 0;
             var id = User.Identity.GetUserId();
             var user_courses = new List<CourseAddRequest>();
             var orders = db.Orders.Where(x => x.UserId == id).ToList();
-            foreach(var item in orders)
+            foreach (var item in orders)
             {
                 var orderDet = db.OrderDetails.Where(x => x.OrderId == item.Id).ToList();
-                foreach(var od in orderDet)
+                foreach (var od in orderDet)
                 {
                     var course = db.Courses.Find(od.CourseId);
                     var category = db.CourseCategories.Find(course.CategoryId);
@@ -40,11 +41,18 @@ namespace Course_Store.Controllers
                         Image = course.Image,
                         IsPublish = course.IsPublish,
                         Objectives = course.Objectives,
-                        Price= course.Price,
+                        Price = course.Price,
                         Title = course.Title
                     });
                 }
             }
+            ViewBag.Points = 0;
+            var progesses = db.Progresses.Where(x => x.User_Id == id).ToList();
+            foreach(var item in progesses)
+            {
+                sumOfPoints += item.Points;
+            }
+            ViewBag.Points = sumOfPoints;
             ViewData["userCourses"] = user_courses;
             var user = db.Users.FirstOrDefault(u => u.Id == id);
             if (user != null)
@@ -58,7 +66,6 @@ namespace Course_Store.Controllers
                     Id = user.Id,
                     Photo = user.Photo,
                     Username = user.UserName,
-                    Points = user.Points,
                     Courses = new List<Course>()
                 };
                 return View(model);
@@ -72,31 +79,30 @@ namespace Course_Store.Controllers
         public PartialViewResult Courses()
         {
             var id = User.Identity.GetUserId();
-
             var user = db.Users.FirstOrDefault(u => u.Id == id);
             var model = new List<CourseAddRequest>();
-                var orders = db.Orders.Where(o => o.UserId == id).ToList();
-                foreach (var item in orders)
+            var orders = db.Orders.Where(o => o.UserId == id).ToList();
+            foreach (var item in orders)
+            {
+                var orderDetails = db.OrderDetails.Where(o => o.OrderId == item.Id && o.IsHidden == false).ToList();
+                foreach (var course in orderDetails)
                 {
-                    var orderDetails = db.OrderDetails.Where(o => o.OrderId == item.Id && o.IsHidden == false).ToList();
-                    foreach (var course in orderDetails)
+                    var c = db.Courses.Find(course.CourseId);
+                    var category = db.CourseCategories.Find(c.CategoryId);
+                    model.Add(new CourseAddRequest()
                     {
-                        var c = db.Courses.Find(course.CourseId);
-                        var category = db.CourseCategories.Find(c.CategoryId);
-                        model.Add(new CourseAddRequest()
-                        {
-                            Description = c.Description,
-                            Id = c.Id,
-                            Category =category,
-                            Image = c.Image,
-                            IsPublish = c.IsPublish,
-                            Objectives = c.Objectives,
-                            Price= c.Price,
-                            Title = c.Title
-                        });
-                    }
+                        Description = c.Description,
+                        Id = c.Id,
+                        Category = category,
+                        Image = c.Image,
+                        IsPublish = c.IsPublish,
+                        Objectives = c.Objectives,
+                        Price = c.Price,
+                        Title = c.Title
+                    });
                 }
-                return PartialView("_Courses", model);
+            }
+            return PartialView("_Courses", model);
         }
         public ActionResult Hide(int id)
         {
@@ -141,7 +147,7 @@ namespace Course_Store.Controllers
                 Surname = applicationUser.Surname,
                 Username = applicationUser.UserName,
                 Photo = applicationUser.Photo,
-                
+
             };
             return View(user);
         }
@@ -176,7 +182,7 @@ namespace Course_Store.Controllers
                 user.Surname = model.Surname;
                 user.UpdatedById = id;
                 user.UpdatedOn = DateTime.Now;
-                if(model.Photo != null)
+                if (model.Photo != null)
                 {
                     user.Photo = (filename + model.Photo).Trim();
                 }

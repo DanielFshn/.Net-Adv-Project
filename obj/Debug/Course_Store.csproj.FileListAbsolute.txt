@@ -234,3 +234,6 @@ C:\Users\User\Desktop\.Net-Adv-Project-Final\.Net-Adv-Project\obj\Debug\Course_S
 C:\Users\User\Desktop\.Net-Adv-Project-Final\.Net-Adv-Project\obj\Debug\Course_Store.pdb
 C:\Users\User\Desktop\.Net-Adv-Project-Final\.Net-Adv-Project\obj\Debug\Course_Store.Migrations.ch.resources
 C:\Users\User\Desktop\.Net-Adv-Project-Final\.Net-Adv-Project\obj\Debug\Course_Store.Migrations.addedOrderRelationship.resources
+C:\Users\User\Desktop\.Net-Adv-Project-Final\.Net-Adv-Project\obj\Debug\Course_Store.Migrations.updateProgress.resources
+C:\Users\User\Desktop\.Net-Adv-Project-Final\.Net-Adv-Project\obj\Debug\Course_Store.Migrations.Progress.resources
+C:\Users\User\Desktop\.Net-Adv-Project-Final\.Net-Adv-Project\obj\Debug\Course_Store.Migrations.updateProgress1.resources

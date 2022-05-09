@@ -10,10 +10,10 @@
             }
         </div>
         <div class="properties__caption">
-            <p>@Html.DisplayFor(modelItem => Model.Title)</p>
-            <h3>@Html.DisplayFor(modelItem => Model.Description)</h3>
-            <h3>@Html.DisplayFor(modelItem => Model.Objectives)</h3>
-            <h3>@Html.DisplayFor(modelItem => Model.Category.CategotyType)</h3>
+            <p>@Html.DisplayNameFor(m => m.Title): @Html.DisplayFor(modelItem => Model.Title)</p>
+            <h3>@Html.DisplayNameFor(m => m.Description): @Html.DisplayFor(modelItem => Model.Description)</h3>
+            <h3>@Html.DisplayNameFor(m => m.Objectives): @Html.DisplayFor(modelItem => Model.Objectives)</h3>
+            <h3>@Html.DisplayNameFor(m => m.Category): @Html.DisplayFor(modelItem => Model.Category.CategotyType)</h3>
 
             <div class="properties__footer d-flex justify-content-between align-items-center">
                 <div class="restaurant-name">
@@ -27,7 +27,7 @@
                     <p><span>(4.5)</span> based on 120</p>
                 </div>
                 <div class="price">
-                    <span>@Html.DisplayFor(modelItem => Model.Price)$</span>
+                    <span>$@Html.DisplayFor(modelItem => Model.Price)</span>
                 </div>
 
             </div>
@@ -48,16 +48,16 @@
             <a href="@Url.Action("Details", "Course" , new { id = Model.Id})" class="border-btn border-btn2">Find out more</a>
 
         </div>
-        @if (User.IsInRole("Trainer,Admin"))
+        @if (User.IsInRole("Admin"))
         {
             <div class="text-center font-weight-bold">
                 @Html.ActionLink("Edit", "Edit", "Course", new { id = Model.Id }, new { @class = "text-dark" })
                 @Html.ActionLink("Details", "Details", "Course", new { id = Model.Id }, new { @class = "text-dark" })
                 @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "text-dark" })
-               
+                @Html.ActionLink("AddContent", "Create", "CourseDetails", new { id = Model.Id }, new { @class = "text-dark" })
             </div>
         }
-        </div>
+    </div>
 
     </div>
 

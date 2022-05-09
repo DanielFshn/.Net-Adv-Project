@@ -34,6 +34,7 @@ namespace Course_Store.Controllers
                              Price = d.Price,
                              CourseName = c.Title,
                              PaymentMethod = o.PaymentMethod,
+                             OrderStatus = OrderStatus.Completed
                          }).ToList();
             return View(orderView.ToList());
         }
@@ -85,7 +86,20 @@ namespace Course_Store.Controllers
             var courseView = (List<CourseListView>)Session["cart"];
             return View(courseView);
         }
-
+        public ActionResult RemoveFromCart(int id)
+        {
+            try
+            {
+                var list = (List<CourseListView>)Session["cart"];
+                var newList = list.Where(x => x.Id != id).ToList();
+                Session["cart"] = newList;
+                return RedirectToAction("Cart");
+            }
+            catch (Exception)
+            {
+            }
+            return View();
+        }
         public ActionResult PlaceOrder()
         {
             var userId = User.Identity.GetUserId();
@@ -108,7 +122,7 @@ namespace Course_Store.Controllers
             }
             db.Orders.Add(order);
             db.SaveChanges();
-            Session.Abandon();
+            //Session.Abandon();
             return RedirectToAction("Index", "Order", new { message = "The order was successfully completed" });
         }
         // GET: Order/Create

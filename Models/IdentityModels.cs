@@ -39,6 +39,7 @@ namespace Course_Store.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<CourseCategory> CourseCategories { get; set; }
+        public DbSet<Progress> Progresses { get; set; }
         public ApplicationDbContext()
             : base("Course_Store_Connection", throwIfV1Schema: false)
         {
@@ -48,5 +49,7 @@ namespace Course_Store.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<Course_Store.Models.CourseDetail> CourseDetails { get; set; }
     }
 }

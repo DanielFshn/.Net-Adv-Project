@@ -3,7 +3,11 @@
 @{
     ViewBag.Title = "Cart";
 }
-
+<style>
+    #image-1{
+        border-radius: 50%;
+    }
+</style>
 <h2>Cart</h2>
 <br />
 <br />
@@ -27,9 +31,10 @@
         <th>
             @Html.DisplayNameFor(model => model.Image)
         </th>
+        
         <th></th>
     </tr>
-    @if (Model.Count() > 1)
+    @if (Model.Count() >= 1)
     {
         foreach (var item in Model)
         {
@@ -44,7 +49,10 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
-                    <img src="@Url.Content(item.Image) " />
+                    <img id="image-1" width="200px" height="200px" src="@Url.Content(item.Image) " />
+                </td>
+                <td>
+                    @Html.ActionLink("Remove", "RemoveFromCart", "Order", new { id = item.Id },new { @class="text-dark"})
                 </td>
                 @*<td>
                         @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
