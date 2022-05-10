@@ -169,6 +169,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\CourseCategoriesController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\CourseDetailsController.cs" />
@@ -236,9 +237,12 @@
     <Compile Include="Migrations\202205090952279_updateProgress1.Designer.cs">
       <DependentUpon>202205090952279_updateProgress1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205101004019_Contact.cs" />
+    <Compile Include="Migrations\202205101004019_Contact.Designer.cs">
+      <DependentUpon>202205101004019_Contact.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\CourseCategory.cs" />
     <Compile Include="Models\CourseDetail.cs" />
@@ -263,6 +267,8 @@
     <Compile Include="Models\Responses\UserProfile.cs" />
     <Compile Include="Models\Trainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Contact.cs" />
+    <Compile Include="Repositories\IContact.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -601,6 +607,11 @@
     <Content Include="Views\Course\PublishedCourses.cshtml" />
     <Content Include="Views\Course\UnpublishedCourses.cshtml" />
     <Content Include="Views\Admin\AllOrders.cshtml" />
+    <Content Include="Views\Contacts\Index.cshtml" />
+    <Content Include="Views\Contacts\Details.cshtml" />
+    <Content Include="Views\Contacts\Create.cshtml" />
+    <Content Include="Views\Contacts\Edit.cshtml" />
+    <Content Include="Views\Contacts\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -669,6 +680,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202205090952279_updateProgress1.resx">
       <DependentUpon>202205090952279_updateProgress1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205101004019_Contact.resx">
+      <DependentUpon>202205101004019_Contact.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

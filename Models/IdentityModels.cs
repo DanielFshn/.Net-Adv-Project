@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Course_Store.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -40,6 +41,7 @@ namespace Course_Store.Models
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<CourseCategory> CourseCategories { get; set; }
         public DbSet<Progress> Progresses { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
         public ApplicationDbContext()
             : base("Course_Store_Connection", throwIfV1Schema: false)
         {

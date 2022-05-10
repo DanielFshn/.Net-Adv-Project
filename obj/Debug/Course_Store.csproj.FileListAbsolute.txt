@@ -242,3 +242,4 @@ C:\Users\User\Desktop\.Net-Adv-Project-Final\.Net-Adv-Project\bin\Loggers.dll
 C:\Users\User\Desktop\.Net-Adv-Project-Final\.Net-Adv-Project\bin\NLog.dll
 C:\Users\User\Desktop\.Net-Adv-Project-Final\.Net-Adv-Project\bin\Loggers.pdb
 C:\Users\User\Desktop\.Net-Adv-Project-Final\.Net-Adv-Project\bin\NLog.xml
+C:\Users\User\Desktop\.Net-Adv-Project-Final\.Net-Adv-Project\obj\Debug\Course_Store.Migrations.Contact.resources
