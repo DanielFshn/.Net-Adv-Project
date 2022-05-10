@@ -173,6 +173,7 @@ namespace Course_Store.Controllers
         {
             if (ModelState.IsValid)
             {
+                logger.Warning(model.Email, "Successful Register", "Account/Register");
                 var fileName = "";
                 try
                 {

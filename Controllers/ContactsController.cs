@@ -12,11 +12,15 @@ namespace Course_Store.Controllers
     [Authorize(Roles ="User")]
     public class ContactsController : Controller
     {
+        private IContact contact;
+        public ContactsController()
+        {
+            this.contact = new Contact();
+        }
         
         // GET: Contacts
         public ActionResult Index()
         {
-            IContact contact = new Contact();
             return View(contact.Index());
         }
         public ActionResult Details(int? id)
@@ -25,9 +29,8 @@ namespace Course_Store.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IContact contact = new Contact();
             var c = contact.Details((int)id);
-            if (contact == null)
+            if (c == null)
             {
                 return HttpNotFound();
             }
@@ -60,7 +63,6 @@ namespace Course_Store.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IContact contact = new Contact();
             var c = contact.Details((int)id);
             if (c == null)
             {
@@ -74,9 +76,8 @@ namespace Course_Store.Controllers
         {
             if (ModelState.IsValid)
             {
-                var c = new Contact();
-                c.Edit(contact);
-                c.Save();
+                this.contact.Edit(contact);
+                this.contact.Save();
                 return RedirectToAction("Index");
             }
             return View(contact);
@@ -88,8 +89,7 @@ namespace Course_Store.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IContact contact = new Contact();
-            var c = contact.Details((int)id);
+            var c = this.contact.Details((int)id);
             if (c == null)
             {
                 return HttpNotFound();
@@ -100,8 +100,7 @@ namespace Course_Store.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            IContact contact = new Contact();
-            var c = contact.Details(id);
+            var c = this.contact.Details(id);
             contact.Delete(c);
             contact.Save();
             return RedirectToAction("Index");

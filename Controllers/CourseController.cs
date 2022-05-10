@@ -10,6 +10,7 @@ using System.Web.Security;
 using Course_Store.Models;
 using Course_Store.Models.Requests;
 using Course_Store.Models.Responses;
+using Loggers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 namespace Course_Store.Controllers
@@ -18,6 +19,11 @@ namespace Course_Store.Controllers
     public class CourseController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private LoggerService logger;
+        public CourseController()
+        {
+            logger = new LoggerService();
+        }
         // GET: Course
         [HttpGet]
         public ActionResult Index()
@@ -316,6 +322,7 @@ namespace Course_Store.Controllers
                     model.UploadImage.SaveAs(Server.MapPath(fileName));
                 }
                 catch (Exception) { throw; }
+                logger.Info(db.Users.Find(id).Email, "Course Added Sucessfuly", "Course/Create");
                 ViewBag.Category = new SelectList(db.CourseCategories, "Id", "CategoryType", category.Id);
                 db.Courses.Add(course);
                 db.SaveChanges();
@@ -344,7 +351,8 @@ namespace Course_Store.Controllers
                 IsPublish = course.IsPublish,
                 Objectives = course.Objectives,
                 Price = course.Price,
-                Title = course.Title
+                Title = course.Title,
+                Points = (int)course.Points
             };
             if (course == null)
             {
@@ -390,6 +398,7 @@ namespace Course_Store.Controllers
                 course.Objectives = model.Objectives;
                 course.Description = model.Description;
                 course.CategoryId = category.Id;
+                course.Points = model.Points;
                 db.Entry(course).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

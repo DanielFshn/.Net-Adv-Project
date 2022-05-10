@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Course_Store.Models;
 using Course_Store.Models.Responses;
+using Loggers;
 using Microsoft.AspNet.Identity;
 
 namespace Course_Store.Controllers
@@ -16,7 +17,11 @@ namespace Course_Store.Controllers
     public class OrderController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        private LoggerService logger;
+        public OrderController()
+        {
+            logger = new LoggerService();
+        }
         // GET: Order
         public ActionResult Index()
         {
@@ -120,6 +125,7 @@ namespace Course_Store.Controllers
                 db.OrderDetails.Add(orderDet);
                 order.Details.Add(orderDet);
             }
+            logger.Info(db.Users.Find(userId).Email, "PlaceOrder Succesfuly", "Order/PlaceOrder");
             db.Orders.Add(order);
             db.SaveChanges();
             //Session.Abandon();

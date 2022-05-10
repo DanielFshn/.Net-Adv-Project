@@ -48,23 +48,8 @@
             <a href="@Url.Action("Details", "Course" , new { id = Model.Id})" class="border-btn border-btn2">Find out more</a>
 
         </div>
-        @*@if (User.IsInRole("Admin"))
-        {
-            <div class="text-center font-weight-bold">
-                @Html.ActionLink("Edit", "Edit", "Course", new { id = Model.Id }, new { @class = "text-dark" })
-                @Html.ActionLink("Details", "Details", "Course", new { id = Model.Id }, new { @class = "text-dark" })
-                @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "text-dark" })
-                @Html.ActionLink("AddContent", "Create", "CourseDetails", new { id = Model.Id }, new { @class = "text-dark" })
-            </div>
-        }*@
     </div>
-
-    </div>
-
-
-
-
-
-
-
-   
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
