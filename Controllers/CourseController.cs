@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Course_Store.Models;
 using Course_Store.Models.Requests;
+using Course_Store.Models.Responses;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 namespace Course_Store.Controllers
@@ -199,11 +200,23 @@ namespace Course_Store.Controllers
             {
                 var courses = db.Courses.Where(x => x.CategoryId == Id).Where(p => p.IsPublish == true).ToList();
                 var courseView = new List<CourseAddRequest>();
+                var orders = db.Orders.Where(x => x.UserId == userId).ToList();
+                var orderDetails = new List<OrderDetailList>();
+                orderDetails = (from o in db.Orders
+                                where o.UserId == userId
+                                join od in db.OrderDetails on o.Id equals od.OrderId
+                                select new OrderDetailList
+                                {
+                                   OrderDetailId = od.Id,
+                                   CourseId = od.CourseId
+                                }).ToList();
+
                 foreach (var item in courses)
                 {
                     try
                     {
-                        var orderDet = db.OrderDetails.FirstOrDefault(x => x.CourseId == item.Id);
+                        //var orderDet = db.OrderDetails.FirstOrDefault(x => x.CourseId == item.Id);
+                        var orderDet = orderDetails.FirstOrDefault(x => x.CourseId == item.Id);
                         if (orderDet == null)
                         {
                             courseView.Add(new CourseAddRequest()
@@ -295,7 +308,8 @@ namespace Course_Store.Controllers
                     IsPublish = model.IsPublish,
                     CreatedOn = DateTime.Now,
                     CategoryId = category.Id,
-                    TrainerId = trainerId.TrainderId
+                    TrainerId = trainerId.TrainderId,
+                    Points = model.Points
                 };
                 try
                 {

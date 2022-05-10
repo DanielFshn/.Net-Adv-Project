@@ -254,6 +254,7 @@
     <Compile Include="Models\Requests\TrainerRegisterRequest.cs" />
     <Compile Include="Models\Requests\UserEditRequest.cs" />
     <Compile Include="Models\Responses\CourseListView.cs" />
+    <Compile Include="Models\Responses\OrderDetailList.cs" />
     <Compile Include="Models\Responses\RoleViewModel.cs" />
     <Compile Include="Models\Responses\TrainerListView.cs" />
     <Compile Include="Models\Responses\TrainerPannel.cs" />
@@ -669,6 +670,12 @@
     <EmbeddedResource Include="Migrations\202205090952279_updateProgress1.resx">
       <DependentUpon>202205090952279_updateProgress1.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Loggers\Loggers.csproj">
+      <Project>{5f991434-8862-455e-9760-efc0b3523c50}</Project>
+      <Name>Loggers</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

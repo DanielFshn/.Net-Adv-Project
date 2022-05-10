@@ -18,6 +18,7 @@ namespace Course_Store.Models.Requests
         [Required(ErrorMessage = "Please enter curse price")]
         public decimal Price { get; set; }
         public bool IsPublish { get; set; }
+        public int Points { get; set; }
         public CourseCategory Category { get; set; }
         public string Image { get; set; }
         public HttpPostedFileBase UploadImage { get; set; }

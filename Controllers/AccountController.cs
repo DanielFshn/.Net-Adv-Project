@@ -11,17 +11,20 @@ using Microsoft.Owin.Security;
 using Course_Store.Models;
 using System.Collections.Generic;
 using Course_Store.Models.Responses;
+using Loggers;
 
 namespace Course_Store.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private LoggerService logger;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationRoleManager _roleManager;
         public AccountController()
         {
+            logger = new LoggerService();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -94,7 +97,10 @@ namespace Course_Store.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    {
+                        logger.Warning(model.Email, "Successful login", "Account/Login");
                     return RedirectToLocal(returnUrl);
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

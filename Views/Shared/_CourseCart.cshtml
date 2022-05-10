@@ -48,7 +48,7 @@
             <a href="@Url.Action("Details", "Course" , new { id = Model.Id})" class="border-btn border-btn2">Find out more</a>
 
         </div>
-        @if (User.IsInRole("Admin"))
+        @*@if (User.IsInRole("Admin"))
         {
             <div class="text-center font-weight-bold">
                 @Html.ActionLink("Edit", "Edit", "Course", new { id = Model.Id }, new { @class = "text-dark" })
@@ -56,7 +56,7 @@
                 @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "text-dark" })
                 @Html.ActionLink("AddContent", "Create", "CourseDetails", new { id = Model.Id }, new { @class = "text-dark" })
             </div>
-        }
+        }*@
     </div>
 
     </div>
@@ -67,70 +67,4 @@
 
 
 
-
-    @*<div>
-            <h4>CourseAddRequest</h4>
-            <hr />
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Title)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Title)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Description)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Description)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Objectives)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Objectives)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Price)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Price)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.IsPublish)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.IsPublish)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Image)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Image)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.TrainerName)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.TrainerName)
-                </dd>
-
-            </dl>
-        </div>
-        <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-            @Html.ActionLink("Back to List", "Index")
-        </p>*@
+   
