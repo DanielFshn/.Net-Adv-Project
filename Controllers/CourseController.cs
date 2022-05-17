@@ -113,11 +113,23 @@ namespace Course_Store.Controllers
                 {
                     var courses = db.Courses.Where(p => p.IsPublish == true).ToList();
                     //var courseView = new List<CourseAddRequest>();
+                    var orders2 = db.Orders.Where(x => x.UserId == userId).ToList();
+                    var orderDetails = new List<OrderDetailList>();
+                    foreach(var item in orders2)
+                    {
+                        var orderD = db.OrderDetails.FirstOrDefault(x => x.OrderId == item.Id);
+                        orderDetails.Add(new OrderDetailList()
+                        {
+                            OrderDetailId = orderD.Id,
+                            CourseId = orderD.CourseId
+                        });
+                    }
                     foreach (var item in courses)
                     {
                         try
                         {
-                            var orderDet = db.OrderDetails.FirstOrDefault(x => x.CourseId == item.Id);
+                            //var orderDet = db.OrderDetails.FirstOrDefault(x => x.CourseId == item.Id);
+                            var orderDet = orderDetails.FirstOrDefault(x => x.CourseId == item.Id);
                             if (orderDet == null)
                             {
                                 courseView.Add(new CourseAddRequest()
@@ -285,9 +297,7 @@ namespace Course_Store.Controllers
                 list.Add(new SelectListItem() { Value = cat.Id.ToString(), Text = cat.CategotyType });
             }
             ViewBag.Category = list;
-            //ViewBag.Category = new SelectList(db.CourseCategories, "Id", "CategotyType");
-            //ViewBag.Category = new SelectList(db.CourseCategories, "Id", "CategotyType");
-            //ViewBag.TrainerId = new SelectList(db.Trainers, "TrainderId", "TrainderId");
+            
             return View();
         }
 
@@ -383,7 +393,8 @@ namespace Course_Store.Controllers
             {
                 var userId = User.Identity.GetUserId();
                 var trainerId = db.Trainers.FirstOrDefault(t => t.User_Id == userId);
-                var course = db.Courses.FirstOrDefault(c => c.TrainerId == trainerId.TrainderId);
+                //var course = db.Courses.FirstOrDefault(c => c.TrainerId == trainerId.TrainderId);
+                var course = db.Courses.Where(x => x.TrainerId == trainerId.TrainderId && x.Id == model.Id).FirstOrDefault();
                 var categoryType = model.Category.CategotyType;
                 var category = db.CourseCategories.FirstOrDefault(c => c.CategotyType == categoryType);
                 if (model.Image != null)

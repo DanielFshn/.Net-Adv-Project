@@ -52,7 +52,20 @@ namespace Course_Store.Controllers
         }
         public ActionResult AllOrders()
         {
-            var orders = db.Orders.ToList();
+            var orders = new List<UserOrdersListView>();
+            orders = (from o in db.Orders
+                      join od in db.OrderDetails on o.Id equals od.OrderId
+                      select new UserOrdersListView()
+                      {
+                          OrderId = o.Id,
+                          CourseName = od.CourseId.ToString(),
+                          CreatedOn = o.CreatedOn,
+                          PaymentMethod = o.PaymentMethod,
+                          Price = od.Price,
+                          UserId = o.UserId,
+                          UpdatedOn = o.UpdatedOn
+                      }).ToList();
+
             return View(orders);
         }
     }

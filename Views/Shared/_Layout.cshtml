@@ -68,8 +68,9 @@
                                                     <li class="active">@Html.ActionLink("Trainers", "TrainersList", "Admin")</li>
                                                     <li class="active">@Html.ActionLink("Course Categories", "Index", "CourseCategories")</li>
                                                     <li class="active">@Html.ActionLink("Published Courses", "PublishedCourses", "Course")</li>
-                                                    <li class="active">@Html.ActionLink("Unpublished Courses", "UnpublishedCourses", "Course")</li>
+                                                    <li class="active">@Html.ActionLink("Drafts", "UnpublishedCourses", "Course")</li>
                                                     <li class="active">@Html.ActionLink("All Orders", "AllOrders", "Admin")</li>
+                                                    <li class="active">@Html.ActionLink("Contacts", "Index", "Contacts")</li>
                                                 }
                                                 @if (User.IsInRole("User"))
                                                 {

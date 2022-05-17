@@ -31,20 +31,23 @@
                 </div>
 
             </div>
-            <div style="width: 500px !important" onclick="window.event.cancelBubble='true'">
-                @using (Ajax.BeginForm("AddToCart", "Order", routeValues: null, htmlAttributes: new { @class = "form-inline" }, ajaxOptions: new AjaxOptions { HttpMethod = "POST", UpdateTargetId = string.Join("btnAdd", Model.Id) }))
-                {
-                    <div class="input-group mb-3 w-100">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" value="@Model.Id" name="id" />
-                        <div class="input-group-append w-100">
-                            <button id="@string.Join("btnAdd", Model.Id)" class="btn btn-outline-primary" type="submit">
-                                Add
-                            </button>
+            @if (!User.IsInRole("Trainer") && !User.IsInRole("Admin"))
+            {
+                <div style="width: 500px !important" onclick="window.event.cancelBubble='true'">
+                    @using (Ajax.BeginForm("AddToCart", "Order", routeValues: null, htmlAttributes: new { @class = "form-inline" }, ajaxOptions: new AjaxOptions { HttpMethod = "POST", UpdateTargetId = string.Join("btnAdd", Model.Id), InsertionMode = InsertionMode.Replace }))
+                    {
+                        <div class="input-group mb-3 w-100">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" value="@Model.Id" name="id" />
+                            <div class="input-group-append w-100">
+                                <button id="@string.Join("btnAdd", Model.Id)" class="btn btn-outline-primary" type="submit">
+                                    Add
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                }
-            </div>
+                    }
+                </div>
+            }
             <a href="@Url.Action("Details", "Course" , new { id = Model.Id})" class="border-btn border-btn2">Find out more</a>
 
         </div>

@@ -18,6 +18,8 @@ namespace Course_Store.Models.Responses
         public decimal Price { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
+        public string UserId { get; set; }
+        public DateTime? UpdatedOn { get; set; }
         //public List<UserOrderDetailsView> Details { get; set; }
     }
 }

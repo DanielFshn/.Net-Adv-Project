@@ -18,7 +18,10 @@
                                 <h1 data-animation="fadeInLeft" data-delay="0.2s">Online learning<br> platform</h1>
                                 <p data-animation="fadeInLeft" data-delay="0.4s">Build skills with courses, certificates, and degrees online with us</p>
                                 <!--<a href="~/Views/Home/Register.cshtml" class="btn hero-btn" data-animation="fadeInLeft" data-delay="0.7s">Join for Free</a>-->
+                                @if (!User.Identity.IsAuthenticated)
+                                {
                                     @Html.ActionLink("Register now for more", "Register", "Account", "Index", new { @class = "btn" })
+                                }
                             </div>
                         </div>
                     </div>
@@ -77,14 +80,27 @@
                 <div class="col-xl-7 col-lg-8">
                     <div class="section-tittle text-center mb-55">
                         <h2>Our featured courses</h2>
+
                     </div>
                 </div>
             </div>
             <div class="row properties__caption carousel slide ">
-                @*
-        <div class="col-md-4">
-                @Html.Partial("_CourseCart", course)
+
+                @if (ViewBag.Courses != null)
+                {
+                    foreach (var item in ViewBag.Courses as IList<Course_Store.Models.Requests.CourseAddRequest>)
+                    {
+                        <div class="col-md-4">
+                            @Html.Partial("_CourseCart", item);
+                        </div>
+                    }
+                }
             </div>
+            <div class="row properties__caption carousel slide ">
+                @*
+                    <div class="col-md-4">
+                            @Html.Partial("_CourseCart", course)
+                        </div>
                 *@
             </div>
             <div class="row justify-content-center">
@@ -150,7 +166,7 @@
                     <div class="video-icon">
                         <a class="popup-video btn-icon" href="https://www.youtube.com/watch?v=gfkTfcpWqAY"><i class="fas fa-play"></i></a>
                     </div>
-                   
+
                 </div>
             </div>
 
@@ -168,21 +184,22 @@
                 </div>
             </div>
             <div class="row">
-                @foreach(var item in ViewBag.Categories as List<Course_Store.Models.CourseCategory>)
+                @foreach (var item in ViewBag.Categories as List<Course_Store.Models.CourseCategory>)
                 {
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="single-topic text-center mb-30">
-                        <div class="topic-img">
-                            <img src="~/Content/img/gallery/topic6.png" alt="">
-                            <div class="topic-content-box">
-                                <div class="topic-content">
-                                    <h3>@Ajax.ActionLink(item.CategotyType, "Index", "Course", new { Id = item.Id }, new AjaxOptions() { HttpMethod = "POST" })</h3>
-                                    @*<h3>@Html.ActionLink(item.CategotyType,"Index","Course",new { Id = item.Id},new { @class="text-dark"})</h3>*@
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="single-topic text-center mb-30">
+                            <div class="topic-img">
+                                <img src="~/Content/img/gallery/topic6.png" alt="">
+                                <div class="topic-content-box">
+                                    <div class="topic-content">
+                                        @*<h3>@Ajax.ActionLink(item.CategotyType, "Index", "Course", new { Id = item.Id }, new AjaxOptions() { HttpMethod = "POST" })</h3>*@
+                                        <h3>@Html.ActionLink(item.CategotyType, "Index", "Course", new { Id = item.Id }, new { @class = "text-dark" })</h3>
+                                        @*<h3>@Html.ActionLink(item.CategotyType,"Index","Course",new { Id = item.Id},new { @class="text-dark"})</h3>*@
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div> 
                 }
             </div>
         </div>

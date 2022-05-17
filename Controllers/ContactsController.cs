@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Course_Store.Controllers
 {
-    [Authorize(Roles ="User")]
+    [Authorize(Roles ="Admin")]
     public class ContactsController : Controller
     {
         private IContact contact;
@@ -40,6 +40,7 @@ namespace Course_Store.Controllers
         {
             return View();
         }
+        [Authorize(Roles="User")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Contact contact)
@@ -57,6 +58,7 @@ namespace Course_Store.Controllers
 
             return View(contact);
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)

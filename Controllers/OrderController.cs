@@ -82,9 +82,28 @@ namespace Course_Store.Controllers
                 Id = course.Id
             };
             var list = (List<CourseListView>)Session["cart"];
-            list.Add(courseView);
-            Session["cart"] = list;
-            return "The course was successfully added";
+            if (list != null)
+            {
+                if (list.Count() == 0)
+                {
+                    list.Add(courseView);
+                    Session["cart"] = list;
+                    return "The course was successfully added";
+                }
+                else
+                {
+                    foreach (var item in list)
+                    {
+                        if (item.Id != courseView.Id)
+                        {
+                            list.Add(courseView);
+                            Session["cart"] = list;
+                            return "The course was successfully added";
+                        }
+                    }
+                }
+            }
+            return "Course is added once";
         }
         public ActionResult Cart()
         {
@@ -114,22 +133,29 @@ namespace Course_Store.Controllers
                 PaymentMethod = PaymentMethod.CreditCard,
                 CreatedOn = DateTime.Now
             };
-            foreach(var item in (List<CourseListView>)Session["cart"])
+            if ((List<CourseListView>)Session["cart"] != null)
             {
-                var orderDet = new OrderDetail()
+                foreach (var item in (List<CourseListView>)Session["cart"])
                 {
-                    CourseId = item.Id,
-                    Price = item.Price,
-                    OrderId = order.Id
-                };
-                db.OrderDetails.Add(orderDet);
-                order.Details.Add(orderDet);
+                    var orderDet = new OrderDetail()
+                    {
+                        CourseId = item.Id,
+                        Price = item.Price,
+                        OrderId = order.Id
+                    };
+                    db.OrderDetails.Add(orderDet);
+                    order.Details.Add(orderDet);
+                }
+                db.Orders.Add(order);
+                db.SaveChanges();
+                logger.Info(db.Users.Find(userId).Email, "PlaceOrder Succesfuly", "Order/PlaceOrder");
+                return RedirectToAction("Index", "Order", new { message = "The order was successfully completed" });
             }
-            logger.Info(db.Users.Find(userId).Email, "PlaceOrder Succesfuly", "Order/PlaceOrder");
-            db.Orders.Add(order);
-            db.SaveChanges();
-            //Session.Abandon();
-            return RedirectToAction("Index", "Order", new { message = "The order was successfully completed" });
+            else
+            {
+                return RedirectToAction("Index", "Home", new { message = "The order is not completed" });
+            }
+            //Session.Clear();
         }
         // GET: Order/Create
         public ActionResult Create()

@@ -14,14 +14,14 @@
 <br />
 <br />
 <br />
-<h2>Index</h2>
+<h2>Choose a category</h2>
 @using (Html.BeginForm())
 {
     <table>
         <tr>
-            <th>
+            @*<th>
                 @Html.ActionLink("Create New", "Create")
-            </th>
+            </th>*@
             <th>
                 @Html.DropDownList("Id", null, htmlAttributes: new { @class = "form-control" })
             </th>

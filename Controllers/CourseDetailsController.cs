@@ -42,6 +42,7 @@ namespace Course_Store.Controllers
             try
             {
                 var prog = db.Progresses.FirstOrDefault(x => x.CourseDetail_Id == id);
+                //var prog = db.Progresses.Where(x => x.CourseDetail_Id == id && x.User_Id == userId).FirstOrDefault();
                 if(prog != null)
                 {
                     return PartialView("_UpdateProgress");

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Course_Store", "Course_Stor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loggers", "..\Loggers\Loggers.csproj", "{5F991434-8862-455E-9760-EFC0B3523C50}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgressDemoUnitTest", "..\..\..\source\repos\ProgressDemoUnitTest\ProgressDemoUnitTest.csproj", "{2BDA2FCF-2FD8-49D4-B6EC-0DD490308BD1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5F991434-8862-455E-9760-EFC0B3523C50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F991434-8862-455E-9760-EFC0B3523C50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F991434-8862-455E-9760-EFC0B3523C50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BDA2FCF-2FD8-49D4-B6EC-0DD490308BD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BDA2FCF-2FD8-49D4-B6EC-0DD490308BD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BDA2FCF-2FD8-49D4-B6EC-0DD490308BD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BDA2FCF-2FD8-49D4-B6EC-0DD490308BD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
