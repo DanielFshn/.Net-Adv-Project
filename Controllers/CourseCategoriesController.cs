@@ -51,6 +51,18 @@ namespace Course_Store.Controllers
         {
             if (ModelState.IsValid)
             {
+                var category = db.CourseCategories.FirstOrDefault(x => x.Id == courseCategory.Id);
+                if (category != null)
+                {
+                    ViewBag.ErrorMessage = "There is a category with this name";
+                    return View(courseCategory);
+                }
+                var categories = db.CourseCategories.ToList();
+                if(categories.Count > 10)
+                {
+                    ViewBag.ErrorMessage = "No more categories aviable to add";
+                    return View(courseCategory);
+                }
                 db.CourseCategories.Add(courseCategory);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -3,8 +3,11 @@
 @{
     ViewBag.Title = "Create";
 }
-
+<br />
+<br />
+<br />
 <h2>Create</h2>
+<h2 class="text-danger">@ViewBag.ErrorMessage</h2>
 @using (Html.BeginForm("Create", "Course", FormMethod.Post, new { enctype = "multipart/form-data" })) 
 {
     @Html.AntiForgeryToken()
@@ -61,7 +64,7 @@
             </div>
         </div>
     </div>
-
+   
     <div class="form-group">
         @Html.LabelFor(model => model.Category, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -69,7 +72,6 @@
             @Html.DropDownListFor(model => model.Category.Id, new SelectList(ViewBag.Category, "Value", "Text"), new { @class = "form-control" })
         </div>
     </div>
-
     <div class="form-group">
         @Html.LabelFor(m => m.UploadImage, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">

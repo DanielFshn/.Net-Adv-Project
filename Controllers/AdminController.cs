@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace Course_Store.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();

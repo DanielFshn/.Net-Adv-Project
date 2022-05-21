@@ -1,0 +1,13 @@
+﻿@model Course_Store.Models.CourseDetail
+
+<style>
+    h2{
+        text-align:center;
+    }
+</style>
+<h2 class="text-danger">
+    You are not allowed to open this page
+</h2>
+
+@Html.ActionLink("Go Home", "Index", "Home")
+@Html.ActionLink("Buy Course","Details","Course",new { id=Model.Course_Id} , new { @class="text-dark"})

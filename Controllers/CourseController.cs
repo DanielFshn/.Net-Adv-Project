@@ -308,12 +308,42 @@ namespace Course_Store.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CourseAddRequest model)
         {
-            var fileName = "~/Content/img/logo/" + Guid.NewGuid() + "_" + model.UploadImage.FileName;
+            var category = db.CourseCategories.FirstOrDefault(c => c.Id == model.Category.Id);
+            var fileName = "".Trim();
+            try {
+                if (model.UploadImage != null)
+                    fileName = "~/Content/img/logo/" + Guid.NewGuid() + "_" + model.UploadImage.FileName;
+                else
+                {
+                    List<SelectListItem> list = new List<SelectListItem>();
+                    var categories = db.CourseCategories.ToList();
+                    foreach (var cat in categories)
+                    {
+                        list.Add(new SelectListItem() { Value = cat.Id.ToString(), Text = cat.CategotyType });
+                    }
+                    ViewBag.Category = list;
+                    ViewBag.ErrorMessage = "Please upload the image";
+                    return View(model);
+                }
+            }
+            catch (Exception) { return View(model); }
             var id = User.Identity.GetUserId();
             var trainerId = db.Trainers.FirstOrDefault(x => x.User_Id == id);
-            var category = db.CourseCategories.FirstOrDefault(c => c.Id == model.Category.Id);
             if (ModelState.IsValid)
             {
+                var courseModel = db.Courses.FirstOrDefault(x => x.Title == model.Title);
+                if(courseModel!=null)
+                {
+                    ViewBag.ErrorMessage = "There is a course with this name";
+                    List<SelectListItem> list = new List<SelectListItem>();
+                    var categories = db.CourseCategories.ToList();
+                    foreach (var cat in categories)
+                    {
+                        list.Add(new SelectListItem() { Value = cat.Id.ToString(), Text = cat.CategotyType });
+                    }
+                    ViewBag.Category = list;
+                    return View(model);
+                }
                 var course = new Course()
                 {
                     Title = model.Title,

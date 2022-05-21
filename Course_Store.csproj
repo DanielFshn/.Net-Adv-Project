@@ -614,6 +614,7 @@
     <Content Include="Views\Contacts\Create.cshtml" />
     <Content Include="Views\Contacts\Edit.cshtml" />
     <Content Include="Views\Contacts\Delete.cshtml" />
+    <Content Include="Views\Shared\_NotAllowed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

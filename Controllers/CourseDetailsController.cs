@@ -21,9 +21,25 @@ namespace Course_Store.Controllers
             var courseDetails = db.CourseDetails.Include(c => c.Course);
             return View(courseDetails.ToList());
         }
+        [Authorize(Roles ="User")]
         public ActionResult SeeContent(int id)
         {
+            var userId = User.Identity.GetUserId();
             var detail = db.CourseDetails.FirstOrDefault(x => x.Course_Id == id);
+            var orders = db.Orders.Where(u => u.UserId == userId).ToList();
+            List<int> courseId = new List<int>();
+            foreach(var item in orders)
+            {
+                var orderDetails = db.OrderDetails.Where(x => x.OrderId == item.Id);
+                foreach(var od in orderDetails)
+                {
+                    courseId.Add(od.CourseId);
+                }
+            }
+            if(!courseId.Contains(id))
+            {
+                return PartialView("_NotAllowed",detail);
+            }
             var progress = new Progress()
             {
                 ProgressStatus = ProgressStatus.Started,
@@ -41,8 +57,8 @@ namespace Course_Store.Controllers
             var course = db.Courses.Find(courseId);
             try
             {
-                var prog = db.Progresses.FirstOrDefault(x => x.CourseDetail_Id == id);
-                //var prog = db.Progresses.Where(x => x.CourseDetail_Id == id && x.User_Id == userId).FirstOrDefault();
+                //var prog = db.Progresses.FirstOrDefault(x => x.CourseDetail_Id == id);
+                var prog = db.Progresses.Where(x => x.CourseDetail_Id == id && x.User_Id == userId).FirstOrDefault();
                 if(prog != null)
                 {
                     return PartialView("_UpdateProgress");

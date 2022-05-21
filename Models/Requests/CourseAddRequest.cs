@@ -16,6 +16,7 @@ namespace Course_Store.Models.Requests
         [Required(ErrorMessage = "Please enter curse objectives")]
         public string Objectives { get; set; }
         [Required(ErrorMessage = "Please enter curse price")]
+        [Range(1,99999, ErrorMessage = "Only positive prices are allowed")]
         public decimal Price { get; set; }
         public bool IsPublish { get; set; }
         public int Points { get; set; }

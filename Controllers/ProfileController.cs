@@ -13,7 +13,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Course_Store.Controllers
 {
-    [Authorize(Roles ="User")]
+    [Authorize(Roles = "User")]
     public class ProfileController : Controller
     {
 
@@ -48,7 +48,7 @@ namespace Course_Store.Controllers
             }
             ViewBag.Points = 0;
             var progesses = db.Progresses.Where(x => x.User_Id == id).ToList();
-            foreach(var item in progesses)
+            foreach (var item in progesses)
             {
                 sumOfPoints += item.Points;
             }
@@ -164,20 +164,18 @@ namespace Course_Store.Controllers
                 var filename = "~/UserPhotos/";
                 var id = User.Identity.GetUserId();
                 ApplicationUser user = db.Users.FirstOrDefault(u => u.Id == id);
-                if (TempData.ContainsKey("username"))
+                try
                 {
-                    var username = TempData["username"].ToString();
-                    if (username != user.UserName && db.Users.FirstOrDefault(u => u.UserName == model.Username) != null)
+                    var username = db.Users.FirstOrDefault(x => x.UserName == model.Username);
+                    if (username != null)
                     {
                         ViewBag.message = "Username qe doni te vendosni ekziston ne sistem";
                         return View(model);
                     }
                     else
-                    {
                         user.UserName = model.Username;
-                    }
-
                 }
+                catch (Exception) { }
                 user.Name = model.Name;
                 user.Surname = model.Surname;
                 user.UpdatedById = id;

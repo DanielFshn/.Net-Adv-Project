@@ -8,13 +8,17 @@
     <meta name="viewport" content="width=device-width" />
     <title>Edit</title>
 </head>
+<br />
+<br />
+<br />
+<br />
 <body>
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
         
     <div class="form-horizontal">
-        <h4>ApplicationUser</h4>
+        <h2 class="text-danger">@ViewBag.message</h2>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
