@@ -10,10 +10,10 @@ using System.Web.Mvc;
 
 namespace Course_Store.Controllers
 {
+    [Authorize(Roles = "Trainer")]
     public class TrainerPannelController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
-        [Authorize(Roles = "Trainer")]
         // GET: TrainerPannel
         public ActionResult Index()
         {

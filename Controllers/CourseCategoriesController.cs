@@ -10,6 +10,7 @@ using Course_Store.Models;
 
 namespace Course_Store.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CourseCategoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

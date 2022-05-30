@@ -13,7 +13,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Course_Store.Controllers
 {
-    [Authorize(Roles = "User,Admin")]
+    [Authorize(Roles = "User")]
     public class OrderController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
