@@ -1,0 +1,10 @@
+C:\Users\User\Desktop\.Net-Adv-Project-Final\Loggers\bin\Debug\NLog.config
+C:\Users\User\Desktop\.Net-Adv-Project-Final\Loggers\bin\Debug\Loggers.dll
+C:\Users\User\Desktop\.Net-Adv-Project-Final\Loggers\bin\Debug\Loggers.pdb
+C:\Users\User\Desktop\.Net-Adv-Project-Final\Loggers\bin\Debug\NLog.dll
+C:\Users\User\Desktop\.Net-Adv-Project-Final\Loggers\bin\Debug\NLog.xml
+C:\Users\User\Desktop\.Net-Adv-Project-Final\Loggers\obj\Debug\Loggers.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\.Net-Adv-Project-Final\Loggers\obj\Debug\Loggers.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\.Net-Adv-Project-Final\Loggers\obj\Debug\Loggers.csproj.CopyComplete
+C:\Users\User\Desktop\.Net-Adv-Project-Final\Loggers\obj\Debug\Loggers.dll
+C:\Users\User\Desktop\.Net-Adv-Project-Final\Loggers\obj\Debug\Loggers.pdb
